@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Responsive Website</title>
+    <title>=Brianna Unframed</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,10 +20,10 @@
         </nav>
     </header>
     <main>
-        <h1>Welcome to My Responsive Website</h1>
+        <h1>Welcome</h1>
         <img src="images/hero.jpg" alt="Hero Image" class="hero-img">
         <p>
-            Explore our modern, fully responsive website template. Navigate through the pages to learn more about our offerings, view our gallery, and contact us for more information.
+            Brianna is a Hilo based free-lance artist focusing on arcrillics.
         </p>
         <p>
             Our website adapts to all screen sizes, providing a seamless experience on mobile, tablet, and desktop devices.
@@ -31,7 +31,7 @@
         <a href="services.html" class="btn">Discover our Services</a>
     </main>
     <footer>
-        <p>&copy; 2025 My Responsive Website | Designed by You</p>
+        <p>&copy; 2025 Brianna Unframed | Designed by Brianna Bratt</p>
     </footer>
 </body>
 </html>
