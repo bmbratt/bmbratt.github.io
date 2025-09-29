@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Brianna Unframed</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="images/logo.png" alt="Brianna Unframed Logo" class="logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Contact</h1>
+        <form class="contact-form" action="mailto:bmbratt@hawaii.edu" method="POST" enctype="text/plain">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <p>Or email: <a href="mailto:bmbratt@hawaii.edu">bmbratt@hawaii.edu</a></p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Brianna Unframed | Designed by Brianna Bratt</p>
+    </footer>
+</body>
+</html>
