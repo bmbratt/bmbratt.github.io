@@ -1,5 +1,7 @@
 # Brianna Unframed
 
+![Logo](images/logo.png)
+
 Welcome to the official site for Brianna Unframed.
 
 Brianna is a Hilo-based freelance artist focusing on acrylics.  
@@ -11,7 +13,6 @@ Explore the site to learn more about Brianna's artwork, view the gallery, and di
 - [Services](services.html)
 - [Contact](contact.html)
 
-![Logo](images/logo.png)
 
 ---
 
