@@ -21,55 +21,71 @@
     </header>
     <main>
         <h1>Gallery</h1>
-        <div class="gallery">
-            <!-- Reef Fish Category Cover with Label -->
-            <a href="#reeffish" class="category-link">
-                <img src="images/triggerfish.JPG" alt="Reef Fish (cover)" class="category-cover">
-                <span class="category-label">Reef Fish</span>
-            </a>
-            <!-- Surfers Category Cover with Label -->
-            <a href="#surfers" class="category-link">
-                <img src="images/surfers.JPG" alt="Surfers (cover)" class="category-cover">
-                <span class="category-label">Surfers</span>
-            </a>
-            <!-- Tanglable Creations Category Cover with Label -->
-            <a href="#tanglablecreations" class="category-link">
-                <img src="images/blubs.JPG" alt="Tanglable Creations (cover)" class="category-cover">
-                <span class="category-label">Tanglable Creations</span>
-            </a>
+        <div class="gallery-categories">
+            <!-- Reef Fish -->
+            <div class="category-accordion">
+                <button class="category-link" data-category="reeffish" aria-expanded="false">
+                    <img src="images/triggerfish.JPG" alt="Reef Fish (cover)" class="category-cover">
+                    <span class="category-label ribbon-label">Reef Fish</span>
+                </button>
+                <div class="category-content" id="reeffish" hidden>
+                    <div class="gallery">
+                        <img src="images/triggerfish.JPG" alt="Triggerfish (Reef Fish)">
+                        <img src="images/yellowtang.JPG" alt="Yellow Tang (Reef Fish)">
+                    </div>
+                </div>
+            </div>
+            <!-- Surfers -->
+            <div class="category-accordion">
+                <button class="category-link" data-category="surfers" aria-expanded="false">
+                    <img src="images/surfers.JPG" alt="Surfers (cover)" class="category-cover">
+                    <span class="category-label ribbon-label">Surfers</span>
+                </button>
+                <div class="category-content" id="surfers" hidden>
+                    <div class="gallery">
+                        <img src="images/surfers.JPG" alt="Surfers">
+                    </div>
+                </div>
+            </div>
+            <!-- Tanglable Creations -->
+            <div class="category-accordion">
+                <button class="category-link" data-category="tanglablecreations" aria-expanded="false">
+                    <img src="images/blubs.JPG" alt="Tanglable Creations (cover)" class="category-cover">
+                    <span class="category-label ribbon-label">Tanglable Creations</span>
+                </button>
+                <div class="category-content" id="tanglablecreations" hidden>
+                    <div class="gallery">
+                        <img src="images/blubs.JPG" alt="Blubs">
+                        <img src="images/strawberry.JPG" alt="Strawberry">
+                        <img src="images/raspberry.JPG" alt="Raspberry">
+                        <img src="images/saltandpepper.JPG" alt="Salt and Pepper">
+                        <img src="images/foodmags.JPG" alt="Food Mags">
+                    </div>
+                </div>
+            </div>
         </div>
         <p>
             Click on a category to see more!
         </p>
-        <!-- Reef Fish Category Section -->
-        <section id="reeffish">
-            <h2>Reef Fish</h2>
-            <div class="gallery">
-                <img src="images/triggerfish.JPG" alt="Triggerfish (Reef Fish)">
-                <img src="images/yellowtang.JPG" alt="Yellow Tang (Reef Fish)">
-            </div>
-        </section>
-        <!-- Surfers Category Section -->
-        <section id="surfers">
-            <h2>Surfers</h2>
-            <div class="gallery">
-                <img src="images/surfers.JPG" alt="Surfers">
-            </div>
-        </section>
-        <!-- Tanglable Creations Category Section -->
-        <section id="tanglablecreations">
-            <h2>Tanglable Creations</h2>
-            <div class="gallery">
-                <img src="images/blubs.JPG" alt="Blubs">
-                <img src="images/strawberry.JPG" alt="Strawberry">
-                <img src="images/raspberry.JPG" alt="Raspberry">
-                <img src="images/saltandpepper.JPG" alt="Salt and Pepper">
-                <img src="images/foodmags.JPG" alt="Food Mags">
-            </div>
-        </section>
     </main>
     <footer>
         <p>&copy; 2025 Brianna Unframed | Designed by Brianna Bratt</p>
     </footer>
+    <script>
+    // Accordion logic
+    document.querySelectorAll('.category-link').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            document.querySelectorAll('.category-link').forEach(b => b.setAttribute('aria-expanded', 'false'));
+            document.querySelectorAll('.category-content').forEach(cont => cont.hidden = true);
+
+            if (!expanded) {
+                this.setAttribute('aria-expanded', 'true');
+                const cat = this.getAttribute('data-category');
+                document.getElementById(cat).hidden = false;
+            }
+        });
+    });
+    </script>
 </body>
 </html>
