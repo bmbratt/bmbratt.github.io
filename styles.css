@@ -235,32 +235,176 @@ h1 {
     display: none !important;
 }
 
+/* --- Responsive & Mobile improvements (replace existing responsive section) --- */
+
+/* General responsive adjustments */
 @media (max-width: 900px) {
-    .gallery-categories {
-        gap: 1.2em;
-    }
-    .category-link {
-        margin: 0 6px 1em 6px;
-    }
+  main {
+    padding: 1.2em 3vw;
+  }
+
+  /* Make category grid tighter on medium screens */
+  .gallery-categories {
+    gap: 1.2rem 1.2rem;
+  }
+
+  /* Slightly smaller covers on medium screens */
+  .category-link .category-cover {
+    width: 84%;
+    max-width: 360px;
+    height: 190px;
+  }
+
+  .category-accordion {
+    max-width: 360px;
+  }
 }
 
+/* Mobile layout: stack things vertically, remove heavy rotations, enlarge touch targets */
 @media (max-width: 700px) {
-    .gallery-categories {
-        flex-direction: column;
-        gap: 0.7em;
-    }
-    .category-accordion {
-        max-width: 98vw;
-    }
-    .category-link .category-cover {
-        width: 98vw;
-        max-width: 330px;
-        height: 150px;
-    }
-    .ribbon-label {
-        top: 14px;
-        left: -8px;
-        font-size: 1em;
-        padding: 7px 28px;
-    }
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 0.6rem;
+  }
+
+  .logo {
+    margin-left: 0;
+    height: 54px;
+  }
+
+  nav ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-right: 0;
+    padding: 0;
+  }
+
+  nav ul li a {
+    padding: 0.5rem 0.9rem;
+    font-size: 1rem;
+  }
+
+  main {
+    margin-top: 0.8rem;
+    max-width: 96vw;
+  }
+
+  /* Categories stack vertically and expand */
+  .gallery-categories {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .category-accordion {
+    width: 98%;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .category-link {
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  /* Make covers responsive and touch-friendly */
+  .category-cover {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    transform: none !important; /* remove rotation on small screens */
+  }
+
+  /* Ribbon label adjustments for small screens */
+  .ribbon-label {
+    top: 12px;
+    left: 8px;
+    transform: none;
+    padding: 8px 20px;
+    font-size: 1.05em;
+    border-radius: 10px;
+  }
+
+  /* Category content hidden/display rules handled by JS; make inside gallery images full width */
+  .category-content {
+    padding-top: 0.6rem;
+    padding-bottom: 0.8rem;
+  }
+
+  /* Gallery images become a responsive grid / stacked list on mobile */
+  .category-content .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    justify-items: center;
+  }
+
+  .category-content .gallery img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 12px;
+    transform: none !important;
+  }
+}
+
+/* Very small phones — single column images, larger tap targets */
+@media (max-width: 480px) {
+  nav ul li a {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .category-accordion {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+
+  .category-content .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .category-content .gallery img {
+    height: auto;
+    max-height: none;
+  }
+
+  .ribbon-label {
+    font-size: 0.95em;
+    padding: 7px 18px;
+    left: 6px;
+  }
+
+  main {
+    padding: 1em 4vw;
+  }
+}
+
+/* Accessibility / readability improvements */
+body, button, a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+}
+
+button.category-link {
+  /* ensure button covers entire card area for better touch interactions */
+  width: 100%;
+  text-align: left;
+  line-height: 0;
+}
+
+/* Reduce expensive transforms on small screens to help rendering */
+@media (max-width: 900px) {
+  .gallery img, .category-cover {
+    will-change: auto;
+    backface-visibility: hidden;
+  }
 }
