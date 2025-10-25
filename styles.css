@@ -408,25 +408,3 @@ button.category-link {
     backface-visibility: hidden;
   }
 }
-/* Rotation helpers for Tree Frog and Fish Plate */
-.rotate-90 {
-  transform: rotate(90deg) !important;
-  transform-origin: center center;
-  display: block;
-}
-
-.rotate-180 {
-  transform: rotate(180deg) !important;
-  transform-origin: center center;
-  display: block;
-}
-
-/* Ensure rotated images keep responsive sizing */
-.category-cover.rotate-90,
-.category-content .gallery img.rotate-90,
-.category-cover.rotate-180,
-.category-content .gallery img.rotate-180 {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-}
