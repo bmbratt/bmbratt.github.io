@@ -66,18 +66,28 @@ nav ul {
     margin-right: 2.2rem;
 }
 
+/* Make nav link text darker for better contrast (non-destructive) */
 nav ul li a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 0.6rem 1.3rem;
-    border-radius: var(--radius);
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: 1.1rem;
-    background: rgba(255,255,255,0.08);
-    transition: background 0.2s, color 0.2s, box-shadow 0.3s;
-    box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
+  /* change from light-on-light to the --deep color for readability */
+  color: var(--deep);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--radius);
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.1rem;
+  background: rgba(255,255,255,0.08);
+  transition: background 0.2s, color 0.2s, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
+}
+
+/* Keep hover/active rules as-is but ensure contrast stays good */
+nav ul li a.active,
+nav ul li a:hover {
+  background: linear-gradient(90deg, var(--teal), var(--orange));
+  color: var(--deep); /* ensure active/hover remain readable */
+  box-shadow: 0 3px 12px var(--yellow);
 }
 
 nav ul li a.active,
