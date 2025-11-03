@@ -67,7 +67,7 @@ nav ul {
 }
 
 nav ul li a {
-    color: var(--black);
+    color: var(--white);
     text-decoration: none;
     font-weight: 700;
     letter-spacing: 1px;
