@@ -66,6 +66,7 @@ nav ul {
     margin-right: 2.2rem;
 }
 
+/* Nav link styling: darker for contrast, preserved pill background */
 nav ul li a {
   color: var(--deep); /* darker text for better contrast */
   background: rgba(255,255,255,0.10); /* slightly stronger pill background for readability */
@@ -81,7 +82,6 @@ nav ul li a {
   box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
 }
 
-/* Keep hover/active states readable */
 nav ul li a.active,
 nav ul li a:hover {
   background: linear-gradient(90deg, var(--teal), var(--orange));
@@ -506,7 +506,8 @@ button.category-link {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* show full poster without cropping */
+  object-position: center;
   border-radius: 12px;
   display: block;
   transition: opacity 260ms ease;
@@ -529,7 +530,8 @@ button.category-link {
   width: 100%;
   height: auto;
   max-height: 260px; /* constrain height so video is compact */
-  object-fit: cover; /* crop elegantly if needed */
+  object-fit: contain; /* scale entire frame to fit (no cropping) */
+  object-position: center;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.10);
   border: 3px solid rgba(50,198,198,0.12);
