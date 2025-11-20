@@ -25,16 +25,18 @@
 
     <img src="images/heroimage.JPG" alt="Hero Image" class="hero-img">
 
-    <!-- Video block: slideshowmini (uses local videos/ path; include mp4 if available for best compatibility) -->
+    <!-- Video block: slideshowmini (file lives in images/) -->
     <figure class="studio-video-figure" style="max-width:720px; margin:1.25rem auto; text-align:center;">
       <video class="studio-video"
              controls
              muted
              loop
              playsinline
+             preload="metadata"
              poster="images/slideshowmini-poster.jpg"
              style="width:100%; height:auto; border-radius:12px; box-shadow:var(--shadow); border:4px solid var(--teal);">
-        <!-- Prefer MP4 for broad browser support; keep .mov as fallback -->
+        <!-- Prefer MP4 for browser support; keep .mov as fallback, both in images/ -->
+        <source src="images/slideshowmini.mp4" type="video/mp4">
         <source src="images/slideshowmini.mov" type="video/quicktime">
         Your browser does not support the video tag.
       </video>
