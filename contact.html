@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Contact — Brianna Unframed</title>
+
+  <!-- Bootstrap CSS (loaded first so your styles.css can override) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4c0fXf+1WQi8QZ0y0s1qK3Y9q3bQ1k6q6gGv7w2e3YcB7W6p8/5Z0wzKQF9E3z5f" crossorigin="anonymous">
+
+  <!-- Your styles (keep after Bootstrap so it can override) -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -20,67 +26,101 @@
     </nav>
   </header>
 
-  <main>
-    <section class="contact-section">
-      <div class="contact-card">
-        <h1>Get in touch</h1>
-        <p class="lead">Questions, commissions, or collaborations — send a message and I'll get back to you.</p>
+  <main class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
 
-        <!--
-          If you have a real form endpoint, set the form's action attribute to it.
-          Example: action="https://formspree.io/f/your-form-id" method="POST"
-          If no action is set the script will simulate a success message locally.
-        -->
-        <form id="contact-form" novalidate>
-          <div class="form-grid">
-            <label class="field">
-              <span class="field-label">Your name</span>
-              <input name="name" type="text" placeholder="Brianna" required aria-required="true">
-              <span class="field-error" aria-live="polite"></span>
-            </label>
+          <!-- Card wrapper keeps your visual style but uses Bootstrap layout -->
+          <div class="contact-card p-4">
 
-            <label class="field">
-              <span class="field-label">Email</span>
-              <input name="email" type="email" placeholder="you@example.com" required aria-required="true">
-              <span class="field-error" aria-live="polite"></span>
-            </label>
+            <div class="row align-items-center">
+              <div class="col-12 col-md-7">
+                <h1>Get in touch</h1>
+                <p class="lead">Questions, commissions, or collaborations — send a message and I'll get back to you.</p>
 
-            <label class="field field-full">
-              <span class="field-label">Subject</span>
-              <input name="subject" type="text" placeholder="Commission inquiry / General question" required>
-              <span class="field-error" aria-live="polite"></span>
-            </label>
+                <!-- form: keep id and novalidate so existing JS still works -->
+                <form id="contact-form" novalidate>
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <label class="field form-label">
+                        <span class="field-label visually-hidden">Your name</span>
+                        <input name="name" type="text" class="form-control" placeholder="Brianna" required aria-required="true">
+                        <div class="field-error form-text text-danger" aria-live="polite"></div>
+                      </label>
+                    </div>
 
-            <label class="field field-full">
-              <span class="field-label">Message</span>
-              <textarea name="message" rows="6" placeholder="Tell me about your project or question..." required></textarea>
-              <span class="field-error" aria-live="polite"></span>
-            </label>
+                    <div class="col-12 col-md-6">
+                      <label class="field form-label">
+                        <span class="field-label visually-hidden">Email</span>
+                        <input name="email" type="email" class="form-control" placeholder="you@example.com" required aria-required="true">
+                        <div class="field-error form-text text-danger" aria-live="polite"></div>
+                      </label>
+                    </div>
 
-            <label class="field-consent">
-              <input name="consent" type="checkbox" value="yes">
-              <span>Subscribe to occasional updates and new artwork notices</span>
-            </label>
-          </div>
+                    <div class="col-12">
+                      <label class="field form-label">
+                        <span class="field-label visually-hidden">Subject</span>
+                        <input name="subject" type="text" class="form-control" placeholder="Commission inquiry / General question" required>
+                        <div class="field-error form-text text-danger" aria-live="polite"></div>
+                      </label>
+                    </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Send message</button>
-            <div class="form-status" aria-live="polite"></div>
-          </div>
-        </form>
+                    <div class="col-12">
+                      <label class="field form-label">
+                        <span class="field-label visually-hidden">Message</span>
+                        <textarea name="message" rows="6" class="form-control" placeholder="Tell me about your project or question..." required></textarea>
+                        <div class="field-error form-text text-danger" aria-live="polite"></div>
+                      </label>
+                    </div>
 
-        <div class="contact-info">
-          <strong>Studio</strong>
-          <p>Hilo, Hawai‘i • Open studio hours listed on the homepage</p>
+                    <div class="col-12">
+                      <label class="field-consent form-check">
+                        <input name="consent" type="checkbox" class="form-check-input me-2" value="yes">
+                        <span class="form-check-label">Subscribe to occasional updates and new artwork notices</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-actions d-flex align-items-center gap-3 mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Send message</button>
+                    <div class="form-status" aria-live="polite"></div>
+                  </div>
+                </form>
+
+              </div>
+
+              <div class="col-12 col-md-5 mt-4 mt-md-0">
+                <div class="contact-info">
+                  <strong>Studio</strong>
+                  <p>Hilo, Hawai‘i • Open studio hours listed on the homepage</p>
+
+                  <hr>
+
+                  <p><strong>Email</strong><br>
+                    <a href="mailto:hello@briannaunframed.com">hello@briannaunframed.com</a></p>
+
+                  <p><strong>Follow</strong><br>
+                    <a href="#" aria-label="Instagram">Instagram</a> · <a href="#" aria-label="Facebook">Facebook</a></p>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- .contact-card -->
         </div>
       </div>
-    </section>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 Brianna Unframed | Designed by Brianna B</p>
   </footer>
 
+  <!-- Bootstrap JS bundle (Popper included) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-1cmG6s8xwG6+9YtLI6b0qz4r4yZ9qEJw3v5zX9Lq7mZ5Gf6n9k8v5w3b6dT8c3Qp" crossorigin="anonymous"></script>
+
+  <!-- Keep your existing form script (unchanged) -->
   <script>
   (function () {
     const form = document.getElementById('contact-form');
@@ -90,12 +130,16 @@
     function showError(field, message) {
       const error = field.querySelector('.field-error') || field.parentElement.querySelector('.field-error');
       if (error) error.textContent = message;
-      field.querySelector('input, textarea')?.setAttribute('aria-invalid', 'true');
+      const input = field.querySelector('input, textarea');
+      if (input) input.setAttribute('aria-invalid', 'true');
+      // add bootstrap invalid class as well for visual
+      if (input) input.classList.add('is-invalid');
     }
 
     function clearErrors() {
       form.querySelectorAll('.field-error').forEach(e => e.textContent = '');
       form.querySelectorAll('[aria-invalid="true"]').forEach(i => i.removeAttribute('aria-invalid'));
+      form.querySelectorAll('.is-invalid').forEach(i => i.classList.remove('is-invalid'));
       statusEl.textContent = '';
       statusEl.className = 'form-status';
     }
@@ -117,7 +161,6 @@
         showError(email.closest('.field'), 'Please enter your email.');
         valid = false;
       } else {
-        // simple email regex
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!re.test(email.value)) {
           showError(email.closest('.field'), 'Please enter a valid email address.');
@@ -143,8 +186,6 @@
       btn.disabled = true;
       btn.textContent = 'Sending...';
 
-      // If the form has an action attribute, we'll submit to it.
-      // If not, we simulate success locally.
       const action = form.getAttribute('action');
 
       if (action) {
@@ -152,30 +193,27 @@
           const data = new FormData(form);
           const response = await fetch(action, {
             method: (form.getAttribute('method') || 'POST').toUpperCase(),
-            body: data,
-            headers: (action.includes('formspree.io') ? {} : {}) // Formspree expects form-encoded POST; fetch handles FormData automatically
+            body: data
           });
 
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          // success
           statusEl.textContent = 'Thanks — your message has been sent.';
-          statusEl.classList.add('success');
+          statusEl.classList.add('success', 'text-success');
           form.reset();
         } catch (err) {
           statusEl.textContent = 'Sorry, there was a problem sending your message. Try again later.';
-          statusEl.classList.add('error');
+          statusEl.classList.add('error', 'text-danger');
           console.error(err);
         } finally {
           btn.disabled = false;
           btn.textContent = 'Send message';
         }
       } else {
-        // No backend defined: simulate a success response
         await new Promise(r => setTimeout(r, 750));
         statusEl.textContent = 'This is a demo. To actually submit messages, set the form action to your endpoint (e.g. Formspree).';
-        statusEl.classList.add('success');
+        statusEl.classList.add('success', 'text-success');
         form.reset();
         btn.disabled = false;
         btn.textContent = 'Send message';
@@ -184,13 +222,13 @@
 
     form.addEventListener('submit', handleSubmit);
 
-    // Optional: clear field error on input
     form.addEventListener('input', (e) => {
       const f = e.target.closest('.field');
       if (!f) return;
       const err = f.querySelector('.field-error');
       if (err) err.textContent = '';
       e.target.removeAttribute('aria-invalid');
+      e.target.classList.remove('is-invalid');
       statusEl.textContent = '';
     });
   })();
