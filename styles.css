@@ -86,6 +86,20 @@ nav ul li a:hover {
     color: var(--deep);
     box-shadow: 0 3px 12px var(--yellow);
 }
+nav ul li a {
+  color: var(--deep); /* darker text for better contrast */
+  background: rgba(255,255,255,0.10); /* slightly stronger pill background for readability */
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle lift for clarity */
+  transition: background 0.2s, color 0.2s, box-shadow 0.3s;
+}
+
+/* Keep hover/active states readable (current CSS already sets these, but keep explicit to avoid surprises) */
+nav ul li a.active,
+nav ul li a:hover {
+  background: linear-gradient(90deg, var(--teal), var(--orange));
+  color: var(--deep);
+  box-shadow: 0 3px 12px var(--yellow);
+}
 
 main {
     flex: 1;
