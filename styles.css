@@ -67,33 +67,21 @@ nav ul {
 }
 
 nav ul li a {
-    color: var(--white);
-    text-decoration: none;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 0.6rem 1.3rem;
-    border-radius: var(--radius);
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: 1.1rem;
-    background: rgba(255,255,255,0.08);
-    transition: background 0.2s, color 0.2s, box-shadow 0.3s;
-    box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
-}
-
-nav ul li a.active,
-nav ul li a:hover {
-    background: linear-gradient(90deg, var(--teal), var(--orange));
-    color: var(--deep);
-    box-shadow: 0 3px 12px var(--yellow);
-}
-nav ul li a {
   color: var(--deep); /* darker text for better contrast */
   background: rgba(255,255,255,0.10); /* slightly stronger pill background for readability */
   text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle lift for clarity */
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--radius);
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.1rem;
   transition: background 0.2s, color 0.2s, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
 }
 
-/* Keep hover/active states readable (current CSS already sets these, but keep explicit to avoid surprises) */
+/* Keep hover/active states readable */
 nav ul li a.active,
 nav ul li a:hover {
   background: linear-gradient(90deg, var(--teal), var(--orange));
@@ -483,4 +471,107 @@ button.category-link {
 .info-table th,
 .info-table td {
   text-align: center;
+}
+
+/* Homepage layout tweaks and compact video styling */
+.main-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1.25rem 1rem 1.75rem;
+}
+
+/* make hero image slightly more prominent but constrained */
+.hero-img {
+  max-width: 720px;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+/* Poster overlay and compact video container so it takes less visual space */
+.studio-video-figure {
+  position: relative;
+  width: 100%;
+  max-width: 420px; /* smaller default width */
+  margin: 0.85rem auto;
+  text-align: center;
+}
+
+/* overlay image sitting on top of the video until hidden */
+.studio-video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  transition: opacity 260ms ease;
+  z-index: 2; /* sits above the video until hidden */
+  pointer-events: none;
+  background: #000;
+}
+
+/* when hidden we fade the poster away so the video is visible */
+.studio-video-figure.poster-hidden .studio-video-poster {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* video sits underneath poster until poster is hidden */
+.studio-video {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  max-height: 260px; /* constrain height so video is compact */
+  object-fit: cover; /* crop elegantly if needed */
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+  border: 3px solid rgba(50,198,198,0.12);
+  background: #000; /* in case first frame isn't available */
+}
+
+/* caption styling */
+.studio-video-caption {
+  margin-top: 0.5rem;
+  font-weight: 700;
+  color: var(--deep);
+  font-family: 'Pacifico', cursive;
+}
+
+/* Intro text container */
+.intro-text {
+  max-width: 760px;
+  padding: 0 1rem;
+  line-height: 1.6;
+  color: var(--deep);
+}
+
+/* Slightly tighter spacing on larger screens to improve page rhythm */
+@media (min-width: 1000px) {
+  .main-intro {
+    gap: 1.25rem;
+    padding-top: 2rem;
+  }
+}
+
+/* Mobile: make video even smaller and remove large shadows */
+@media (max-width: 640px) {
+  .studio-video-figure {
+    max-width: 92%;
+  }
+  .studio-video {
+    max-height: 200px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border-width: 2px;
+  }
+
+  .hero-img {
+    max-width: 96%;
+  }
 }
