@@ -21,68 +21,63 @@
   </header>
 
   <main>
-    <!-- Centered intro block to visually group headline, hero and video -->
-    <section class="main-intro">
-      <h1>Welcome to Brianna Unframed</h1>
+    <h1>Welcome to Brianna Unframed</h1>
 
-      <img src="images/heroimage.JPG" alt="Hero Image" class="hero-img">
+    <img src="images/heroimage.JPG" alt="Hero Image" class="hero-img">
 
-      <!-- Video block: slideshowmini (file lives in images/) with overlay poster -->
-      <figure class="studio-video-figure">
-        <img class="studio-video-poster" src="images/slideshowmini-poster.jpg" alt="Slideshow preview">
-        <video class="studio-video"
-               controls
-               muted
-               loop
-               playsinline
-               preload="metadata"
-               poster="images/slideshowmini-poster.JPG">
-          <source src="images/slideshowmini.mp4" type="video/mp4">
-          <source src="images/slideshowmini.mov" type="video/quicktime">
-          Your browser does not support the video tag.
-        </video>
-        <figcaption class="studio-video-caption">daily insparation</figcaption>
-      </figure>
+    <!-- Video block: slideshowmini (file lives in images/) -->
+    <figure class="studio-video-figure">
+      <!-- overlay poster -->
+      <img class="studio-video-poster" src="images/slideshowmini-poster.jpg" alt="Slideshow preview">
 
-      <div class="intro-text">
-        <p>
-          Brianna is a Hilo-based freelance artist specializing in acrylics. Explore the pages to learn more about the artist, view the gallery, and get in touch for commissions or collaborations.
-        </p>
+      <video class="studio-video"
+             controls
+             muted
+             loop
+             playsinline
+             preload="metadata"
+             poster="images/slideshowmini-poster.jpg">
+        <source src="images/slideshowmini.mp4" type="video/mp4">
+        <source src="images/slideshowmini.mov" type="video/quicktime">
+        Your browser does not support the video tag.
+      </video>
 
-        <p>
-          Note: This site adapts to all screen sizes, providing a seamless experience on mobile, tablet, and desktop devices.
-        </p>
+      <figcaption class="studio-video-caption">daily insparation</figcaption>
+    </figure>
 
-        <a href="services.html" class="btn">Discover Services</a>
-      </div>
-    </section>
+    <p>
+      Brianna is a Hilo-based freelance artist specializing in acrylics. Explore the pages to learn more about the artist, view the gallery, and get in touch for commissions or collaborations.
+    </p>
 
-    <!-- Small information table (uses .info-table styles in styles.css) -->
-    <section class="studio-info">
-      <table class="info-table" aria-label="Open studio hours">
-        <caption>Open Studio Hours</caption>
-        <thead>
-          <tr>
-            <th scope="col">Day</th>
-            <th scope="col">Hours</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Monday – Wednesday</td>
-            <td>10:00 AM – 4:00 PM</td>
-          </tr>
-          <tr>
-            <td>Thursday</td>
-            <td>12:00 PM – 6:00 PM</td>
-          </tr>
-          <tr>
-            <td>Saturday</td>
-            <td>10:00 AM – 2:00 PM</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+    <p>
+      Note: This site adapts to all screen sizes, providing a seamless experience on mobile, tablet, and desktop devices.
+    </p>
+
+    <table class="info-table" aria-label="Open studio hours">
+      <caption>Open Studio Hours</caption>
+      <thead>
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Monday – Wednesday</td>
+          <td>10:00 AM – 4:00 PM</td>
+        </tr>
+        <tr>
+          <td>Thursday</td>
+          <td>12:00 PM – 6:00 PM</td>
+        </tr>
+        <tr>
+          <td>Saturday</td>
+          <td>10:00 AM – 2:00 PM</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a href="services.html" class="btn">Discover Services</a>
   </main>
 
   <footer>
@@ -97,154 +92,85 @@
     const poster = fig.querySelector('.studio-video-poster');
     if (!vid || !poster) return;
 
-    // Create play overlay
-    const overlayWrap = document.createElement('div');
-    overlayWrap.className = 'studio-play-overlay';
-    const playBtn = document.createElement('button');
-    playBtn.setAttribute('aria-label', 'Play video');
-    playBtn.innerHTML = '▶';
-    overlayWrap.appendChild(playBtn);
-    fig.appendChild(overlayWrap);
+    // Create play overlay if it doesn't exist (keeps markup small)
+    let overlayWrap = fig.querySelector('.studio-play-overlay');
+    if (!overlayWrap) {
+      overlayWrap = document.createElement('div');
+      overlayWrap.className = 'studio-play-overlay';
+      const playBtn = document.createElement('button');
+      playBtn.setAttribute('aria-label', 'Play video');
+      playBtn.innerHTML = '▶';
+      overlayWrap.appendChild(playBtn);
+      fig.appendChild(overlayWrap);
 
-    // Create expand (lightbox) control
-    const expandBtn = document.createElement('button');
-    expandBtn.className = 'studio-expand';
-    expandBtn.setAttribute('aria-label', 'Open larger video');
-    expandBtn.textContent = '⤢';
-    fig.appendChild(expandBtn);
-
-    // Toggle poster hide and play
-    function hidePoster() {
-      fig.classList.add('poster-hidden');
+      // clicking the overlay button toggles playback
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlay();
+        vid.focus();
+      });
     }
-    function showPoster() {
+
+    // Ensure expand control exists (if you want a lightbox/expand)
+    let expandBtn = fig.querySelector('.studio-expand');
+    if (!expandBtn) {
+      expandBtn = document.createElement('button');
+      expandBtn.className = 'studio-expand';
+      expandBtn.setAttribute('aria-label', 'Open larger video');
+      expandBtn.textContent = '⤢';
+      fig.appendChild(expandBtn);
+    }
+
+    function hidePosterAndOverlay() {
+      fig.classList.add('poster-hidden');
+      overlayWrap.classList.add('hidden');
+    }
+
+    function showPosterAndOverlay() {
       fig.classList.remove('poster-hidden');
+      overlayWrap.classList.remove('hidden');
     }
 
     // Play/pause toggle helper
     function togglePlay() {
       if (vid.paused) {
-        vid.play().catch(()=>{});
-        hidePoster();
+        vid.play().catch(()=>{ /* autoplay may be blocked */ });
+        hidePosterAndOverlay();
       } else {
         vid.pause();
+        showPosterAndOverlay();
       }
     }
 
-    // Clicking the poster image acts like play/pause
+    // Poster click: play or open modal on shift+click
     poster.addEventListener('click', (e) => {
-      // if shift+click open modal instead
       if (e.shiftKey) return;
       togglePlay();
       vid.focus();
     });
 
-    // Clicking the overlay play button plays
-    playBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      togglePlay();
-      vid.focus();
-    });
-
-    // If video has metadata already, hide poster (cached)
-    if (vid.readyState >= 1) {
-      hidePoster();
-    }
-    vid.addEventListener('loadedmetadata', hidePoster, { once: true });
-    vid.addEventListener('loadeddata', hidePoster, { once: true });
-    vid.addEventListener('play', hidePoster, { once: true });
-
-    // Keyboard: Space toggles play/pause when video or poster has focus
-    document.addEventListener('keydown', (ev) => {
-      const active = document.activeElement;
-      if (ev.code === 'Space') {
-        if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) {
-          return;
-        }
-        ev.preventDefault();
-        togglePlay();
-      }
-      if (ev.key === 'Escape') {
-        closeModal();
-      }
-    });
-
-    // LIGHTBOX / MODAL implementation
-    let modal = null;
-    function createModal() {
-      modal = document.createElement('div');
-      modal.className = 'video-modal';
-      modal.innerHTML = '<div class="modal-content" role="dialog" aria-modal="true"><button class="modal-close" aria-label="Close">✕</button></div>';
-      document.body.appendChild(modal);
-
-      // click outside content closes
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      // close button
-      modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    // Sync overlay with current playback state
+    if (vid.readyState >= 2 && !vid.paused) {
+      hidePosterAndOverlay();
     }
 
-    function openModal() {
-      if (!modal) createModal();
-      const container = modal.querySelector('.modal-content');
-
-      // clone the video node to play independently (so inline stays paused)
-      const bigVideo = vid.cloneNode(true);
-      bigVideo.controls = true;
-      bigVideo.autoplay = true;
-      bigVideo.muted = false;
-      bigVideo.classList.remove('poster-hidden');
-
-      const existing = container.querySelector('video');
-      if (existing) existing.remove();
-
-      container.appendChild(bigVideo);
-      modal.classList.add('open');
-
-      bigVideo.play().catch(()=>{});
-    }
-
-    function closeModal() {
-      if (!modal) return;
-      const container = modal.querySelector('.modal-content');
-      const bigVideo = container.querySelector('video');
-      if (bigVideo) {
-        bigVideo.pause();
-        const sources = bigVideo.querySelectorAll('source');
-        sources.forEach(s => s.removeAttribute('src'));
-        bigVideo.load();
-        bigVideo.remove();
-      }
-      modal.classList.remove('open');
-    }
-
-    // open modal on expand button or shift+click the poster
-    expandBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      openModal();
-    });
-
-    poster.addEventListener('click', (e) => {
-      if (e.shiftKey) {
-        openModal();
-      }
-    });
-
-    // When inline video ends, show poster again (optional)
+    vid.addEventListener('play', hidePosterAndOverlay);
+    vid.addEventListener('playing', hidePosterAndOverlay);
+    vid.addEventListener('pause', showPosterAndOverlay);
     vid.addEventListener('ended', () => {
-      showPoster();
+      showPosterAndOverlay();
       vid.currentTime = 0;
     });
 
-    // Accessibility: make play button and expand focusable
-    playBtn.tabIndex = 0;
-    expandBtn.tabIndex = 0;
-
-    // Ensure poster image failure doesn't block access
+    // Poster error fallback
     poster.addEventListener('error', () => {
-      hidePoster();
+      hidePosterAndOverlay();
+    });
+
+    // expand button hook (no-op if you don't have a modal)
+    expandBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (typeof openModal === 'function') openModal();
     });
   })();
   </script>
