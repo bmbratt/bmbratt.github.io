@@ -29,7 +29,7 @@
 
       <!-- Video block: slideshowmini (file lives in images/) with overlay poster -->
       <figure class="studio-video-figure">
-        <img class="studio-video-poster" src="images/slideshowmini-poster.JPG" alt="Slideshow preview">
+        <img class="studio-video-poster" src="images/slideshowmini-poster.jpg" alt="Slideshow preview">
         <video class="studio-video"
                controls
                muted
@@ -90,30 +90,163 @@
   </footer>
 
   <script>
-    (function(){
-      const fig = document.querySelector('.studio-video-figure');
-      if (!fig) return;
-      const vid = fig.querySelector('.studio-video');
-      const poster = fig.querySelector('.studio-video-poster');
-      if (!vid || !poster) return;
+  (function(){
+    const fig = document.querySelector('.studio-video-figure');
+    if (!fig) return;
+    const vid = fig.querySelector('.studio-video');
+    const poster = fig.querySelector('.studio-video-poster');
+    if (!vid || !poster) return;
 
-      function hidePoster() {
-        fig.classList.add('poster-hidden');
-      }
+    // Create play overlay
+    const overlayWrap = document.createElement('div');
+    overlayWrap.className = 'studio-play-overlay';
+    const playBtn = document.createElement('button');
+    playBtn.setAttribute('aria-label', 'Play video');
+    playBtn.innerHTML = '▶';
+    overlayWrap.appendChild(playBtn);
+    fig.appendChild(overlayWrap);
 
-      // If video already has metadata
-      if (vid.readyState >= 1) {
+    // Create expand (lightbox) control
+    const expandBtn = document.createElement('button');
+    expandBtn.className = 'studio-expand';
+    expandBtn.setAttribute('aria-label', 'Open larger video');
+    expandBtn.textContent = '⤢';
+    fig.appendChild(expandBtn);
+
+    // Toggle poster hide and play
+    function hidePoster() {
+      fig.classList.add('poster-hidden');
+    }
+    function showPoster() {
+      fig.classList.remove('poster-hidden');
+    }
+
+    // Play/pause toggle helper
+    function togglePlay() {
+      if (vid.paused) {
+        vid.play().catch(()=>{});
         hidePoster();
+      } else {
+        vid.pause();
       }
+    }
 
-      vid.addEventListener('loadedmetadata', hidePoster, { once: true });
-      vid.addEventListener('loadeddata', hidePoster, { once: true });
-      vid.addEventListener('play', hidePoster, { once: true });
+    // Clicking the poster image acts like play/pause
+    poster.addEventListener('click', (e) => {
+      // if shift+click open modal instead
+      if (e.shiftKey) return;
+      togglePlay();
+      vid.focus();
+    });
 
-      poster.addEventListener('error', () => {
-        fig.classList.add('poster-hidden');
+    // Clicking the overlay play button plays
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlay();
+      vid.focus();
+    });
+
+    // If video has metadata already, hide poster (cached)
+    if (vid.readyState >= 1) {
+      hidePoster();
+    }
+    vid.addEventListener('loadedmetadata', hidePoster, { once: true });
+    vid.addEventListener('loadeddata', hidePoster, { once: true });
+    vid.addEventListener('play', hidePoster, { once: true });
+
+    // Keyboard: Space toggles play/pause when video or poster has focus
+    document.addEventListener('keydown', (ev) => {
+      const active = document.activeElement;
+      if (ev.code === 'Space') {
+        if (active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)) {
+          return;
+        }
+        ev.preventDefault();
+        togglePlay();
+      }
+      if (ev.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // LIGHTBOX / MODAL implementation
+    let modal = null;
+    function createModal() {
+      modal = document.createElement('div');
+      modal.className = 'video-modal';
+      modal.innerHTML = '<div class="modal-content" role="dialog" aria-modal="true"><button class="modal-close" aria-label="Close">✕</button></div>';
+      document.body.appendChild(modal);
+
+      // click outside content closes
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
       });
-    })();
+
+      // close button
+      modal.querySelector('.modal-close').addEventListener('click', closeModal);
+    }
+
+    function openModal() {
+      if (!modal) createModal();
+      const container = modal.querySelector('.modal-content');
+
+      // clone the video node to play independently (so inline stays paused)
+      const bigVideo = vid.cloneNode(true);
+      bigVideo.controls = true;
+      bigVideo.autoplay = true;
+      bigVideo.muted = false;
+      bigVideo.classList.remove('poster-hidden');
+
+      const existing = container.querySelector('video');
+      if (existing) existing.remove();
+
+      container.appendChild(bigVideo);
+      modal.classList.add('open');
+
+      bigVideo.play().catch(()=>{});
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      const container = modal.querySelector('.modal-content');
+      const bigVideo = container.querySelector('video');
+      if (bigVideo) {
+        bigVideo.pause();
+        const sources = bigVideo.querySelectorAll('source');
+        sources.forEach(s => s.removeAttribute('src'));
+        bigVideo.load();
+        bigVideo.remove();
+      }
+      modal.classList.remove('open');
+    }
+
+    // open modal on expand button or shift+click the poster
+    expandBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openModal();
+    });
+
+    poster.addEventListener('click', (e) => {
+      if (e.shiftKey) {
+        openModal();
+      }
+    });
+
+    // When inline video ends, show poster again (optional)
+    vid.addEventListener('ended', () => {
+      showPoster();
+      vid.currentTime = 0;
+    });
+
+    // Accessibility: make play button and expand focusable
+    playBtn.tabIndex = 0;
+    expandBtn.tabIndex = 0;
+
+    // Ensure poster image failure doesn't block access
+    poster.addEventListener('error', () => {
+      hidePoster();
+    });
+  })();
   </script>
 </body>
 </html>
