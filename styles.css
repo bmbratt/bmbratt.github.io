@@ -13,6 +13,7 @@
     --radius: 18px;
 }
 
+/* Base & layout ---------------------------------------------------------- */
 body {
     font-family: 'Montserrat', Arial, sans-serif;
     background: linear-gradient(135deg, var(--light-bg) 0%, var(--yellow) 100%);
@@ -66,11 +67,11 @@ nav ul {
     margin-right: 2.2rem;
 }
 
-/* Nav link styling: darker for contrast, preserved pill background */
+/* Nav link styling */
 nav ul li a {
-  color: var(--deep); /* darker text for better contrast */
-  background: rgba(255,255,255,0.10); /* slightly stronger pill background for readability */
-  text-shadow: 0 1px 0 rgba(255,255,255,0.06); /* subtle lift for clarity */
+  color: var(--deep);
+  background: rgba(255,255,255,0.10);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06);
   text-decoration: none;
   font-weight: 700;
   letter-spacing: 1px;
@@ -81,7 +82,6 @@ nav ul li a {
   transition: background 0.2s, color 0.2s, box-shadow 0.3s;
   box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
 }
-
 nav ul li a.active,
 nav ul li a:hover {
   background: linear-gradient(90deg, var(--teal), var(--orange));
@@ -100,6 +100,7 @@ main {
     animation: fadeIn 1.1s;
 }
 
+/* Headings */
 h1, h2, h3 {
     color: var(--deep);
     font-family: 'Pacifico', cursive;
@@ -107,12 +108,9 @@ h1, h2, h3 {
     margin-bottom: 1em;
     letter-spacing: 1.2px;
 }
+h1 { font-size: 2.5rem; }
 
-h1 {
-    font-size: 2.5rem;
-}
-
-/* Keep images neutral by default (no hover glow) */
+/* Images (neutral by default) -------------------------------------------- */
 .hero-img, .section-img {
     width: 100%;
     max-width: 550px;
@@ -123,9 +121,6 @@ h1 {
     border: 4px solid var(--teal);
     transition: transform 0.3s, border 0.22s, box-shadow 0.35s;
 }
-
-/* Remove global hover rotations/glow (we'll only apply to clickable images) */
-/* .hero-img:hover, .section-img:hover { ... } removed */
 
 /* Gallery defaults */
 .gallery {
@@ -145,13 +140,9 @@ h1 {
     box-shadow: 0 2px 12px var(--teal);
     background: var(--white);
     transition: transform 0.35s, border 0.22s, box-shadow 0.35s;
-    /* transform: rotate(-2deg); removed so static images don't rotate on hover */
 }
 
-/* Hover glow removed from global selector */
-/* .gallery img:hover { ... } removed */
-
-/* Accordion and Ribbon Styles */
+/* Category & ribbon */
 .ribbon-label {
     position: absolute;
     top: 22px;
@@ -183,10 +174,7 @@ h1 {
     margin: 0 18px 1.5em 18px;
     transition: box-shadow 0.2s;
 }
-
-.category-link:focus {
-    outline: 2px solid var(--teal);
-}
+.category-link:focus { outline: 2px solid var(--teal); }
 
 .category-cover {
     display: block;
@@ -198,7 +186,6 @@ h1 {
     border: 4px solid var(--teal);
     transition: transform 0.18s, border 0.18s;
 }
-
 .category-link[aria-expanded="true"] .category-cover,
 .category-link:hover .category-cover {
     border: 4px solid var(--orange);
@@ -206,207 +193,48 @@ h1 {
     box-shadow: 0 10px 32px var(--orange);
 }
 
-.gallery-categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2em 2.5em;
-    justify-content: center;
-    margin-bottom: 1.7em;
-}
-
-.category-accordion {
-    flex: 1 1 320px;
-    max-width: 330px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.category-content {
-    width: 100%;
-    padding-top: 0.5em;
-    animation: fadeIn 0.7s;
-}
-
-.category-content[hidden] {
-    display: none !important;
-}
-
-/* --- Responsive & Mobile improvements (replace existing responsive section) --- */
-
-/* General responsive adjustments */
+/* Responsive helpers ----------------------------------------------------- */
 @media (max-width: 900px) {
-  main {
-    padding: 1.2em 3vw;
-  }
-
-  /* Make category grid tighter on medium screens */
-  .gallery-categories {
-    gap: 1.2rem 1.2rem;
-  }
-
-  /* Slightly smaller covers on medium screens */
+  main { padding: 1.2em 3vw; }
+  .gallery-categories { gap: 1.2rem 1.2rem; }
   .category-link .category-cover {
     width: 84%;
     max-width: 360px;
     height: 190px;
   }
-
-  .category-accordion {
-    max-width: 360px;
-  }
+  .category-accordion { max-width: 360px; }
 }
 
-/* Mobile layout: stack things vertically, remove heavy rotations, enlarge touch targets */
 @media (max-width: 700px) {
-  header {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 1.1rem 0.6rem;
-  }
-
-  .logo {
-    margin-left: 0;
-    height: 54px;
-  }
-
-  nav ul {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-right: 0;
-    padding: 0;
-  }
-
-  nav ul li a {
-    padding: 0.5rem 0.9rem;
-    font-size: 1rem;
-  }
-
-  main {
-    margin-top: 0.8rem;
-    max-width: 96vw;
-  }
-
-  /* Categories stack vertically and expand */
-  .gallery-categories {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  .category-accordion {
-    width: 98%;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
-  .category-link {
-    margin: 0;
-    width: 100%;
-    display: block;
-  }
-
-  /* Make covers responsive and touch-friendly */
-  .category-cover {
-    width: 100%;
-    height: auto;
-    max-height: 220px;
-    object-fit: cover;
-    border-radius: 12px;
-    transform: none !important; /* remove rotation on small screens */
-  }
-
-  /* Ribbon label adjustments for small screens */
-  .ribbon-label {
-    top: 12px;
-    left: 8px;
-    transform: none;
-    padding: 8px 20px;
-    font-size: 1.05em;
-    border-radius: 10px;
-  }
-
-  /* Category content hidden/display rules handled by JS; make inside gallery images full width */
-  .category-content {
-    padding-top: 0.6rem;
-    padding-bottom: 0.8rem;
-  }
-
-  /* Gallery images become a responsive grid / stacked list on mobile */
-  .category-content .gallery {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.8rem;
-    justify-items: center;
-  }
-
-  .category-content .gallery img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    object-fit: cover;
-    object-position: top;
-    border-radius: 12px;
-    transform: none !important;
-  }
+  header { flex-direction: column; align-items: center; gap: 0.6rem; padding: 1.1rem 0.6rem; }
+  .logo { margin-left: 0; height: 54px; }
+  nav ul { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-right: 0; padding: 0; }
+  nav ul li a { padding: 0.5rem 0.9rem; font-size: 1rem; }
+  main { margin-top: 0.8rem; max-width: 96vw; }
+  .gallery-categories { flex-direction: column; gap: 1rem; align-items: center; }
+  .category-accordion { width: 98%; max-width: 520px; margin: 0 auto; }
+  .category-link { margin: 0; width: 100%; display: block; }
+  .category-cover { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 12px; transform: none !important; }
+  .ribbon-label { top: 12px; left: 8px; transform: none; padding: 8px 20px; font-size: 1.05em; border-radius: 10px; }
+  .category-content { padding-top: 0.6rem; padding-bottom: 0.8rem; }
+  .category-content .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; justify-items: center; }
+  .category-content .gallery img { width: 100%; max-width: 100%; height: auto; object-fit: cover; object-position: top; border-radius: 12px; transform: none !important; }
 }
 
-/* Very small phones — single column images, larger tap targets */
 @media (max-width: 480px) {
-  nav ul li a {
-    padding: 0.5rem 0.8rem;
-    font-size: 0.95rem;
-  }
-
-  .category-accordion {
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
-  }
-
-  .category-content .gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .category-content .gallery img {
-    height: auto;
-    max-height: none;
-  }
-
-  .ribbon-label {
-    font-size: 0.95em;
-    padding: 7px 18px;
-    left: 6px;
-  }
-
-  main {
-    padding: 1em 4vw;
-  }
+  nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.95rem; }
+  .category-accordion { padding-left: 0.6rem; padding-right: 0.6rem; }
+  .category-content .gallery { grid-template-columns: 1fr; }
+  .category-content .gallery img { height: auto; max-height: none; }
+  .ribbon-label { font-size: 0.95em; padding: 7px 18px; left: 6px; }
+  main { padding: 1em 4vw; }
 }
 
-/* Accessibility / readability improvements */
-body, button, a {
-  -webkit-tap-highlight-color: rgba(0,0,0,0.05);
-}
+/* Accessibility & misc -------------------------------------------------- */
+body, button, a { -webkit-tap-highlight-color: rgba(0,0,0,0.05); }
+button.category-link { width: 100%; text-align: left; line-height: 0; }
 
-button.category-link {
-  /* ensure button covers entire card area for better touch interactions */
-  width: 100%;
-  text-align: left;
-  line-height: 0;
-}
-
-/* Reduce expensive transforms on small screens to help rendering */
-@media (max-width: 900px) {
-  .gallery img, .category-cover {
-    will-change: auto;
-    backface-visibility: hidden;
-  }
-}
-
-/* Small, self-contained table styles (add to styles.css; does not change other rules) */
+/* Info table ------------------------------------------------------------ */
 .info-table {
   width: 100%;
   max-width: 640px;
@@ -417,7 +245,6 @@ button.category-link {
   background: var(--white);
   box-shadow: var(--shadow);
 }
-
 .info-table caption {
   text-align: left;
   font-weight: 700;
@@ -426,49 +253,21 @@ button.category-link {
   background: linear-gradient(90deg, rgba(166,120,211,0.06), rgba(255,224,102,0.04));
   font-family: 'Pacifico', cursive;
 }
-
-.info-table th,
-.info-table td {
+.info-table th, .info-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   color: var(--deep);
   font-weight: 500;
 }
-
-.info-table th {
-  text-align: left;
-  background: rgba(0,0,0,0.02);
-  font-weight: 700;
-}
-
-.info-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* small screen tweaks */
+.info-table th { text-align: left; background: rgba(0,0,0,0.02); font-weight: 700; }
+.info-table tbody tr:last-child td { border-bottom: none; }
 @media (max-width: 480px) {
-  .info-table th,
-  .info-table td {
-    padding: 0.6rem;
-    font-size: 0.95rem;
-  }
+  .info-table th, .info-table td { padding: 0.6rem; font-size: 0.95rem; }
 }
+.info-table { margin-left: auto; margin-right: auto; }
+.info-table caption, .info-table th, .info-table td { text-align: center; }
 
-/* Ensure the info table is centered horizontally on the page */
-.info-table {
-  margin-left: auto;
-  margin-right: auto;
-  /* keep existing size constraints (width / max-width) unchanged */
-}
-
-/* Optional: center the caption and cell text if you want the table content centered */
-.info-table caption,
-.info-table th,
-.info-table td {
-  text-align: center;
-}
-
-/* Homepage layout tweaks and compact video styling */
+/* Main intro & hero ----------------------------------------------------- */
 .main-intro {
   display: flex;
   flex-direction: column;
@@ -477,103 +276,66 @@ button.category-link {
   text-align: center;
   padding: 1.25rem 1rem 1.75rem;
 }
+.hero-img { max-width: 720px; width: 100%; height: auto; border-radius: 14px; }
 
-/* make hero image slightly more prominent but constrained */
-.hero-img {
-  max-width: 720px;
-  width: 100%;
-  height: auto;
-  border-radius: 14px;
-}
-
-/* Poster overlay and compact video container so it takes less visual space */
+/* Video block & poster overlay ----------------------------------------- */
 .studio-video-figure {
   position: relative;
   width: 100%;
-  max-width: 420px; /* smaller default width */
+  max-width: 420px;
   margin: 0.85rem auto;
   text-align: center;
 }
-
-/* overlay image sitting on top of the video until hidden */
 .studio-video-poster {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* show full poster without cropping */
+  object-fit: contain;
   object-position: center;
   border-radius: 12px;
   display: block;
   transition: opacity 260ms ease;
-  z-index: 2; /* sits above the video until hidden */
+  z-index: 2;
   pointer-events: none;
   background: #000;
 }
-
-/* when hidden we fade the poster away so the video is visible */
 .studio-video-figure.poster-hidden .studio-video-poster {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
-/* video sits underneath poster until poster is hidden */
 .studio-video {
   position: relative;
   z-index: 1;
   width: 100%;
   height: auto;
-  max-height: 260px; /* constrain height so video is compact */
-  object-fit: contain; /* scale entire frame to fit (no cropping) */
+  max-height: 260px;
+  object-fit: contain;
   object-position: center;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.10);
   border: 3px solid rgba(50,198,198,0.12);
-  background: #000; /* in case first frame isn't available */
+  background: #000;
 }
-
-/* caption styling */
 .studio-video-caption {
   margin-top: 0.5rem;
   font-weight: 700;
   color: var(--deep);
   font-family: 'Pacifico', cursive;
 }
+.intro-text { max-width: 760px; padding: 0 1rem; line-height: 1.6; color: var(--deep); }
 
-/* Intro text container */
-.intro-text {
-  max-width: 760px;
-  padding: 0 1rem;
-  line-height: 1.6;
-  color: var(--deep);
-}
-
-/* Slightly tighter spacing on larger screens to improve page rhythm */
 @media (min-width: 1000px) {
-  .main-intro {
-    gap: 1.25rem;
-    padding-top: 2rem;
-  }
+  .main-intro { gap: 1.25rem; padding-top: 2rem; }
 }
-
-/* Mobile: make video even smaller and remove large shadows */
 @media (max-width: 640px) {
-  .studio-video-figure {
-    max-width: 92%;
-  }
-  .studio-video {
-    max-height: 200px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    border-width: 2px;
-  }
-
-  .hero-img {
-    max-width: 96%;
-  }
+  .studio-video-figure { max-width: 92%; }
+  .studio-video { max-height: 200px; box-shadow: 0 6px 18px rgba(0,0,0,0.08); border-width: 2px; }
+  .hero-img { max-width: 96%; }
 }
 
-/* Additional interactive controls styling (play overlay, expand, modal) */
+/* Play overlay, expand icon, modal ------------------------------------- */
 .studio-play-overlay {
   position: absolute;
   z-index: 3;
@@ -583,7 +345,6 @@ button.category-link {
   justify-content: center;
   pointer-events: none;
 }
-
 .studio-play-overlay button {
   pointer-events: auto;
   border: 0;
@@ -601,8 +362,6 @@ button.category-link {
   transition: transform 160ms ease, opacity 160ms ease;
   opacity: 0.98;
 }
-
-/* small expand (lightbox) icon to the bottom-right corner */
 .studio-expand {
   position: absolute;
   z-index: 4;
@@ -620,8 +379,6 @@ button.category-link {
   box-shadow: 0 4px 14px rgba(0,0,0,0.12);
   cursor: pointer;
 }
-
-/* Lightbox modal styles */
 .video-modal {
   position: fixed;
   inset: 0;
@@ -632,11 +389,7 @@ button.category-link {
   z-index: 9999;
   padding: 2vh 3vw;
 }
-
-.video-modal.open {
-  display: flex;
-}
-
+.video-modal.open { display: flex; }
 .video-modal .modal-content {
   width: 100%;
   max-width: 1100px;
@@ -646,14 +399,7 @@ button.category-link {
   box-shadow: 0 20px 60px rgba(0,0,0,0.55);
   position: relative;
 }
-
-.video-modal video {
-  width: 100%;
-  height: auto;
-  display: block;
-  background: #000;
-}
-
+.video-modal video { width: 100%; height: auto; display: block; background: #000; }
 .video-modal .modal-close {
   position: absolute;
   top: 8px;
@@ -671,20 +417,12 @@ button.category-link {
   box-shadow: 0 6px 22px rgba(0,0,0,0.14);
 }
 
-/* -------------------------
-   Interactive image rules
-   Only apply glow/transform when image is clickable
-   (either wrapped in an anchor or an element with .interactive-img)
-   ------------------------- */
-
-/* Ensure anchor-wrapped images behave like interactive elements */
+/* Interactive image rules: only glow when clickable -------------------- */
 a.interactive-img img,
 .interactive-img img {
   cursor: pointer;
   transition: transform 0.35s, border 0.22s, box-shadow 0.35s;
 }
-
-/* Glow and transform only when the clickable wrapper is hovered/focused/active */
 a.interactive-img:hover img,
 a.interactive-img:focus-within img,
 a.interactive-img:active img,
@@ -696,10 +434,116 @@ a.interactive-img:active img,
   box-shadow: 0 6px 22px var(--yellow);
   z-index: 2;
 }
-
-/* Keyboard focus-visible state for accessibility */
 a.interactive-img:focus-visible img,
 .interactive-img:focus-visible img {
   outline: 3px solid rgba(50,198,198,0.18);
   outline-offset: 6px;
+}
+
+/* Contact form styles (complete) -------------------------------------- */
+.contact-section {
+  padding: 2.25rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+.contact-card {
+  width: 100%;
+  max-width: 920px;
+  border-radius: 16px;
+  padding: 2rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+  box-shadow: 0 14px 40px rgba(37,57,100,0.08);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.contact-card h1 { margin-top: 0; margin-bottom: 0.25rem; font-size: 2rem; letter-spacing: 0.6px; }
+.contact-card .lead { margin-top: 0; color: rgba(35,41,70,0.78); margin-bottom: 1.25rem; }
+
+/* Form layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem 1rem;
+  align-items: start;
+}
+.field { display: flex; flex-direction: column; width: 100%; }
+.field-full { grid-column: 1 / -1; }
+.field-label { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; color: var(--deep); }
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(35,41,70,0.08);
+  background: #fff;
+  outline: none;
+  transition: box-shadow 0.18s, border-color 0.18s, transform 0.12s;
+  color: var(--deep);
+  box-shadow: 0 6px 18px rgba(166,120,211,0.04) inset;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 8px 28px rgba(50,198,198,0.10);
+  transform: translateY(-1px);
+}
+.field-error { color: #b12d2d; font-size: 0.88rem; margin-top: 0.45rem; }
+
+/* Consent checkbox */
+.field-consent {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: rgba(35,41,70,0.86);
+}
+
+/* Actions & status */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--teal), var(--orange));
+  color: var(--deep);
+  border: none;
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(50,198,198,0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s;
+}
+.btn-primary:active { transform: translateY(1px); }
+
+.form-status { font-size: 0.96rem; color: rgba(35,41,70,0.7); }
+.form-status.success { color: #0a7a3a; }
+.form-status.error { color: #b12d2d; }
+
+.contact-info { margin-top: 1.25rem; color: rgba(35,41,70,0.86); font-size: 0.95rem; }
+
+/* Responsive contact form */
+@media (max-width: 760px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary { width: 100%; }
+}
+
+/* small performance-friendly tweaks */
+@media (max-width: 900px) {
+  .gallery img, .category-cover { will-change: auto; backface-visibility: hidden; }
+}
+
+/* Utility/finish -------------------------------------------------------- */
+/* Fade animation (subtle) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
