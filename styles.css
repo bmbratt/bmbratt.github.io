@@ -344,6 +344,7 @@ button.category-link { width: 100%; text-align: left; line-height: 0; }
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  transition: opacity 220ms ease, visibility 220ms ease;
 }
 .studio-play-overlay button {
   pointer-events: auto;
@@ -362,6 +363,13 @@ button.category-link { width: 100%; text-align: left; line-height: 0; }
   transition: transform 160ms ease, opacity 160ms ease;
   opacity: 0.98;
 }
+/* Smooth hide/show class for overlay */
+.studio-play-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .studio-expand {
   position: absolute;
   z-index: 4;
