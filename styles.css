@@ -326,48 +326,42 @@ button.category-link { width: 100%; text-align: left; line-height: 0; }
 }
 .intro-text { max-width: 760px; padding: 0 1rem; line-height: 1.6; color: var(--deep); }
 
-@media (min-width: 1000px) {
-  .main-intro { gap: 1.25rem; padding-top: 2rem; }
-}
-@media (max-width: 640px) {
-  .studio-video-figure { max-width: 92%; }
-  .studio-video { max-height: 200px; box-shadow: 0 6px 18px rgba(0,0,0,0.08); border-width: 2px; }
-  .hero-img { max-width: 96%; }
-}
-
 /* Play overlay, expand icon, modal ------------------------------------- */
+/* Visible by default; hidden by JS when playing */
 .studio-play-overlay {
   position: absolute;
-  z-index: 3;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  transition: opacity 220ms ease, visibility 220ms ease;
+  z-index: 6; /* sits above poster (z-index:2) and video controls */
+  pointer-events: none; /* let only the button receive events */
+  transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease;
+  opacity: 1;
+  visibility: visible;
 }
 .studio-play-overlay button {
   pointer-events: auto;
   border: 0;
-  background: rgba(35,41,70,0.92);
+  background: rgba(35,41,70,0.95);
   color: #fff;
-  width: 68px;
-  height: 68px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.36);
+  font-size: 30px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.32);
   cursor: pointer;
   transition: transform 160ms ease, opacity 160ms ease;
   opacity: 0.98;
 }
-/* Smooth hide/show class for overlay */
 .studio-play-overlay.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform: scale(0.98);
 }
 
 .studio-expand {
