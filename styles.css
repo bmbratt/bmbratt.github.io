@@ -1,7 +1,3 @@
-/* Full styles.css (updated) */
-/* Note: this is the site stylesheet with the updated .studio-video-figure background
-   and overlay rules so the poster preview displays even if the <img> poster fails. */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Pacifico&display=swap');
 
 :root {
@@ -49,112 +45,537 @@ header {
     filter: drop-shadow(0 4px 10px rgba(50, 198, 198, 0.12));
 }
 
-/* ... keep all your previous rules above unchanged ... */
+header::before {
+    /* Artistic brush stroke background for the logo */
+    content: '';
+    position: absolute;
+    left: 1.3rem;
+    top: 1.2rem;
+    width: 110px;
+    height: 65px;
+    background: linear-gradient(100deg, var(--purple) 10%, var(--yellow) 80%);
+    border-radius: 60% 40% 50% 60%/80% 60% 40% 60%;
+    opacity: 0.18;
+    z-index: 1;
+    pointer-events: none;
+}
 
-/* --- Video: poster as figure background + centered overlay button --- */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.7rem;
+    margin-right: 2.2rem;
+}
 
-/* The figure shows a background poster image (fallback) so no broken image icon appears.
-   Replace the path below if you want a different poster image. */
+/* Nav link styling */
+nav ul li a {
+  color: var(--deep);
+  background: rgba(255,255,255,0.10);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.6rem 1.3rem;
+  border-radius: var(--radius);
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.1rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(255, 224, 102, 0.08);
+}
+nav ul li a.active,
+nav ul li a:hover {
+  background: linear-gradient(90deg, var(--teal), var(--orange));
+  color: var(--deep);
+  box-shadow: 0 3px 12px var(--yellow);
+}
+
+main {
+    flex: 1;
+    padding: 2em max(1em, 5vw);
+    max-width: 900px;
+    margin: 2.5em auto 2em;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    animation: fadeIn 1.1s;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: var(--deep);
+    font-family: 'Pacifico', cursive;
+    font-weight: 700;
+    margin-bottom: 1em;
+    letter-spacing: 1.2px;
+}
+h1 { font-size: 2.5rem; }
+
+/* Images (neutral by default) -------------------------------------------- */
+.hero-img, .section-img {
+    width: 100%;
+    max-width: 550px;
+    display: block;
+    margin: 1.5em auto 1em auto;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 18px var(--purple);
+    border: 4px solid var(--teal);
+    transition: transform 0.3s, border 0.22s, box-shadow 0.35s;
+}
+
+/* Gallery defaults */
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 1.5em;
+    justify-content: center;
+}
+
+.gallery img {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 3px solid var(--purple);
+    box-shadow: 0 2px 12px var(--teal);
+    background: var(--white);
+    transition: transform 0.35s, border 0.22s, box-shadow 0.35s;
+}
+
+/* Category & ribbon */
+.ribbon-label {
+    position: absolute;
+    top: 22px;
+    left: -24px;
+    padding: 10px 44px;
+    background: linear-gradient(90deg, #ffe066 60%, #ff8861 100%);
+    color: #232946;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.3em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border-radius: 2em 0.5em 2em 0.5em / 2em 1em 2em 1em;
+    box-shadow: 0 2px 16px rgba(166,120,211,0.10), 0 1px 4px #fff8;
+    border: 2px solid #fff8;
+    z-index: 2;
+    transform: rotate(-7deg);
+    text-shadow: 0 2px 8px rgba(32,23,0,0.10);
+    pointer-events: none;
+}
+
+.category-link {
+    position: relative;
+    display: inline-block;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 18px 1.5em 18px;
+    transition: box-shadow 0.2s;
+}
+.category-link:focus { outline: 2px solid var(--teal); }
+
+.category-cover {
+    display: block;
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 14px var(--purple);
+    border: 4px solid var(--teal);
+    transition: transform 0.18s, border 0.18s;
+}
+.category-link[aria-expanded="true"] .category-cover,
+.category-link:hover .category-cover {
+    border: 4px solid var(--orange);
+    transform: scale(1.04) rotate(-2deg);
+    box-shadow: 0 10px 32px var(--orange);
+}
+
+/* Responsive helpers ----------------------------------------------------- */
+@media (max-width: 900px) {
+  main { padding: 1.2em 3vw; }
+  .gallery-categories { gap: 1.2rem 1.2rem; }
+  .category-link .category-cover {
+    width: 84%;
+    max-width: 360px;
+    height: 190px;
+  }
+  .category-accordion { max-width: 360px; }
+}
+
+@media (max-width: 700px) {
+  header { flex-direction: column; align-items: center; gap: 0.6rem; padding: 1.1rem 0.6rem; }
+  .logo { margin-left: 0; height: 54px; }
+  nav ul { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-right: 0; padding: 0; }
+  nav ul li a { padding: 0.5rem 0.9rem; font-size: 1rem; }
+  main { margin-top: 0.8rem; max-width: 96vw; }
+  .gallery-categories { flex-direction: column; gap: 1rem; align-items: center; }
+  .category-accordion { width: 98%; max-width: 520px; margin: 0 auto; }
+  .category-link { margin: 0; width: 100%; display: block; }
+  .category-cover { width: 100%; height: auto; max-height: 220px; object-fit: cover; border-radius: 12px; transform: none !important; }
+  .ribbon-label { top: 12px; left: 8px; transform: none; padding: 8px 20px; font-size: 1.05em; border-radius: 10px; }
+  .category-content { padding-top: 0.6rem; padding-bottom: 0.8rem; }
+  .category-content .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; justify-items: center; }
+  .category-content .gallery img { width: 100%; max-width: 100%; height: auto; object-fit: cover; object-position: top; border-radius: 12px; transform: none !important; }
+}
+
+@media (max-width: 480px) {
+  nav ul li a { padding: 0.5rem 0.8rem; font-size: 0.95rem; }
+  .category-accordion { padding-left: 0.6rem; padding-right: 0.6rem; }
+  .category-content .gallery { grid-template-columns: 1fr; }
+  .category-content .gallery img { height: auto; max-height: none; }
+  .ribbon-label { font-size: 0.95em; padding: 7px 18px; left: 6px; }
+  main { padding: 1em 4vw; }
+}
+
+/* Accessibility & misc -------------------------------------------------- */
+body, button, a { -webkit-tap-highlight-color: rgba(0,0,0,0.05); }
+button.category-link { width: 100%; text-align: left; line-height: 0; }
+
+/* Info table ------------------------------------------------------------ */
+.info-table {
+  width: 100%;
+  max-width: 640px;
+  margin: 1.25rem auto;
+  border-collapse: collapse;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.info-table caption {
+  text-align: left;
+  font-weight: 700;
+  color: var(--deep);
+  padding: 0.75rem 1rem;
+  background: linear-gradient(90deg, rgba(166,120,211,0.06), rgba(255,224,102,0.04));
+  font-family: 'Pacifico', cursive;
+}
+.info-table th, .info-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  color: var(--deep);
+  font-weight: 500;
+}
+.info-table th { text-align: left; background: rgba(0,0,0,0.02); font-weight: 700; }
+.info-table tbody tr:last-child td { border-bottom: none; }
+@media (max-width: 480px) {
+  .info-table th, .info-table td { padding: 0.6rem; font-size: 0.95rem; }
+}
+.info-table { margin-left: auto; margin-right: auto; }
+.info-table caption, .info-table th, .info-table td { text-align: center; }
+
+/* Main intro & hero ----------------------------------------------------- */
+.main-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 1.25rem 1rem 1.75rem;
+}
+.hero-img { max-width: 720px; width: 100%; height: auto; border-radius: 14px; }
+
+/* Video block & poster overlay ----------------------------------------- */
 .studio-video-figure {
   position: relative;
   width: 100%;
-  max-width: 720px; /* slightly larger by default */
+  max-width: 420px;
   margin: 0.85rem auto;
   text-align: center;
-  border-radius: 12px;
-  overflow: hidden; /* ensures rounded corners for bg and video */
-  background-color: #000;
-  /* background poster image (fallback) - keep path in sync with your images folder */
-  background-image: url('images/slideshowmini-poster.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
 }
-
-/* Optionally remove the figure background when playing so video isn't double-layered */
-.studio-video-figure.poster-hidden {
-  background-image: none;
-  background-color: #000;
-}
-
-/* Keep the video above the figure background */
-.studio-video {
-  position: relative;
-  z-index: 3; /* above the bg but below overlay (overlay z-index: 6) */
+.studio-video-poster {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  max-height: 420px; /* adjust as desired */
+  height: 100%;
   object-fit: contain;
   object-position: center;
+  border-radius: 12px;
   display: block;
-  border: 0;
+  transition: opacity 260ms ease;
+  z-index: 2;
+  pointer-events: none;
   background: #000;
 }
+.studio-video-figure.poster-hidden .studio-video-poster {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.studio-video {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+  border: 3px solid rgba(50,198,198,0.12);
+  background: #000;
+}
+.studio-video-caption {
+  margin-top: 0.5rem;
+  font-weight: 700;
+  color: var(--deep);
+  font-family: 'Pacifico', cursive;
+}
+.intro-text { max-width: 760px; padding: 0 1rem; line-height: 1.6; color: var(--deep); }
 
-/* Centered play overlay (visible by default) */
+@media (min-width: 1000px) {
+  .main-intro { gap: 1.25rem; padding-top: 2rem; }
+}
+@media (max-width: 640px) {
+  .studio-video-figure { max-width: 92%; }
+  .studio-video { max-height: 200px; box-shadow: 0 6px 18px rgba(0,0,0,0.08); border-width: 2px; }
+  .hero-img { max-width: 96%; }
+}
+
+/* Play overlay, expand icon, modal ------------------------------------- */
 .studio-play-overlay {
   position: absolute;
+  z-index: 3;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 6; /* sits above video and figure background */
-  pointer-events: none; /* only the button itself should receive pointer events */
-  transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease;
-  opacity: 1;
-  visibility: visible;
+  pointer-events: none;
 }
-
 .studio-play-overlay button {
-  pointer-events: auto; /* enable clicking */
+  pointer-events: auto;
   border: 0;
-  background: rgba(35,41,70,0.95);
+  background: rgba(35,41,70,0.92);
   color: #fff;
-  width: 72px;
-  height: 72px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.32);
+  font-size: 28px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.36);
   cursor: pointer;
   transition: transform 160ms ease, opacity 160ms ease;
   opacity: 0.98;
 }
-
-/* Hide overlay while playing */
-.studio-play-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: scale(0.98);
-}
-
-/* Small expand button in corner */
 .studio-expand {
   position: absolute;
-  z-index: 5;
-  right: 12px;
-  bottom: 12px;
-  width: 40px;
-  height: 40px;
+  z-index: 4;
+  right: 10px;
+  bottom: 10px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.9);
   color: var(--deep);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+  font-size: 18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
   cursor: pointer;
 }
-
-/* small-screens adjustments */
-@media (max-width: 640px) {
-  .studio-video { max-height: 240px; }
-  .studio-play-overlay button { width: 62px; height: 62px; font-size: 26px; }
+.video-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12,12,16,0.7);
+  z-index: 9999;
+  padding: 2vh 3vw;
+}
+.video-modal.open { display: flex; }
+.video-modal .modal-content {
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+  position: relative;
+}
+.video-modal video { width: 100%; height: auto; display: block; background: #000; }
+.video-modal .modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 6;
+  background: rgba(255,255,255,0.95);
+  color: var(--deep);
+  border-radius: 8px;
+  height: 36px;
+  width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.14);
 }
 
-/* ... rest of your stylesheet below unchanged ... */
+/* Interactive image rules: only glow when clickable -------------------- */
+a.interactive-img img,
+.interactive-img img {
+  cursor: pointer;
+  transition: transform 0.35s, border 0.22s, box-shadow 0.35s;
+}
+a.interactive-img:hover img,
+a.interactive-img:focus-within img,
+a.interactive-img:active img,
+.interactive-img:hover img,
+.interactive-img:focus-within img,
+.interactive-img:active img {
+  border: 3px solid var(--orange);
+  transform: scale(1.07) rotate(2deg);
+  box-shadow: 0 6px 22px var(--yellow);
+  z-index: 2;
+}
+a.interactive-img:focus-visible img,
+.interactive-img:focus-visible img {
+  outline: 3px solid rgba(50,198,198,0.18);
+  outline-offset: 6px;
+}
+
+/* Contact form styles (complete) -------------------------------------- */
+.contact-section {
+  padding: 2.25rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+.contact-card {
+  width: 100%;
+  max-width: 920px;
+  border-radius: 16px;
+  padding: 2rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+  box-shadow: 0 14px 40px rgba(37,57,100,0.08);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+.contact-card h1 { margin-top: 0; margin-bottom: 0.25rem; font-size: 2rem; letter-spacing: 0.6px; }
+.contact-card .lead { margin-top: 0; color: rgba(35,41,70,0.78); margin-bottom: 1.25rem; }
+
+/* Form layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem 1rem;
+  align-items: start;
+}
+.field { display: flex; flex-direction: column; width: 100%; }
+.field-full { grid-column: 1 / -1; }
+.field-label { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.35rem; color: var(--deep); }
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(35,41,70,0.08);
+  background: #fff;
+  outline: none;
+  transition: box-shadow 0.18s, border-color 0.18s, transform 0.12s;
+  color: var(--deep);
+  box-shadow: 0 6px 18px rgba(166,120,211,0.04) inset;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+  border-color: var(--teal);
+  box-shadow: 0 8px 28px rgba(50,198,198,0.10);
+  transform: translateY(-1px);
+}
+.field-error { color: #b12d2d; font-size: 0.88rem; margin-top: 0.45rem; }
+
+/* Consent checkbox */
+.field-consent {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: rgba(35,41,70,0.86);
+}
+
+/* Actions & status */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+.btn-primary {
+  background: linear-gradient(90deg, var(--teal), var(--orange));
+  color: var(--deep);
+  border: none;
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(50,198,198,0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s;
+}
+.btn-primary:active { transform: translateY(1px); }
+
+.form-status { font-size: 0.96rem; color: rgba(35,41,70,0.7); }
+.form-status.success { color: #0a7a3a; }
+.form-status.error { color: #b12d2d; }
+
+.contact-info { margin-top: 1.25rem; color: rgba(35,41,70,0.86); font-size: 0.95rem; }
+
+/* Responsive contact form */
+@media (max-width: 760px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary { width: 100%; }
+}
+
+/* small performance-friendly tweaks */
+@media (max-width: 900px) {
+  .gallery img, .category-cover { will-change: auto; backface-visibility: hidden; }
+}
+
+/* Utility/finish -------------------------------------------------------- */
+/* Fade animation (subtle) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Bootstrap compatibility overrides (append if using Bootstrap) ---- */
+.contact-card {
+  /* ensure Bootstrap layout doesn't override the card look */
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,252,0.98));
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 14px 40px rgba(37,57,100,0.08);
+}
+
+/* Keep your custom button look but allow bootstrap spacing */
+.btn-primary {
+  background: linear-gradient(90deg, var(--teal), var(--orange)) !important;
+  color: var(--deep) !important;
+  border: none;
+  padding: 0.9rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+/* Make bootstrap form controls match your theme slightly */
+.form-control {
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 6px 18px rgba(166,120,211,0.04) inset;
+}
+
+/* error styling to stand out with bootstrap */
+.is-invalid {
+  border-color: #b12d2d !important;
+  box-shadow: 0 6px 18px rgba(177,45,45,0.06) inset !important;
+}
