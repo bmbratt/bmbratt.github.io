@@ -25,21 +25,24 @@
 
     <img src="images/heroimage.JPG" alt="Hero Image" class="hero-img">
 
-    <!-- Video block: poster is provided as the figure background (fallback) and also in the video poster attribute -->
-    <figure class="studio-video-figure" aria-label="Slideshow preview">
+    <!-- Video block: slideshowmini (file lives in images/) -->
+    <figure class="studio-video-figure">
+      <!-- overlay poster -->
+      <img class="studio-video-poster" src="images/slideshowmini-poster.jpg" alt="Slideshow preview">
+
       <video class="studio-video"
              controls
              muted
              loop
              playsinline
              preload="metadata"
-             poster="images/slideshowmini-poster.JPG">
+             poster="images/slideshowmini-poster.jpg">
         <source src="images/slideshowmini.mp4" type="video/mp4">
         <source src="images/slideshowmini.mov" type="video/quicktime">
         Your browser does not support the video tag.
       </video>
 
-      <figcaption class="studio-video-caption">Slideshow preview</figcaption>
+      <figcaption class="studio-video-caption">daily insparation</figcaption>
     </figure>
 
     <p>
@@ -86,9 +89,10 @@
     const fig = document.querySelector('.studio-video-figure');
     if (!fig) return;
     const vid = fig.querySelector('.studio-video');
-    if (!vid) return;
+    const poster = fig.querySelector('.studio-video-poster');
+    if (!vid || !poster) return;
 
-    // Create overlay container with a centered play button if it's not present
+    // Create play overlay if it doesn't exist (keeps markup small)
     let overlayWrap = fig.querySelector('.studio-play-overlay');
     let playBtn;
     if (!overlayWrap) {
@@ -98,6 +102,7 @@
       playBtn.setAttribute('aria-label', 'Play video');
       playBtn.innerHTML = '▶';
       overlayWrap.appendChild(playBtn);
+      // append overlay so it layers above poster; z-index is handled in CSS
       fig.appendChild(overlayWrap);
     } else {
       playBtn = overlayWrap.querySelector('button');
@@ -108,38 +113,7 @@
     overlayWrap.setAttribute('role', 'button');
     overlayWrap.setAttribute('aria-hidden', 'false');
 
-    // Toggle play — explicit flag used for autoplay-policy handling
-    function togglePlay({explicit = false} = {}) {
-      if (vid.paused) {
-        const p = vid.play();
-        if (p && typeof p.then === 'function') {
-          p.then(() => {
-            // success => hide overlay
-            overlayWrap.classList.add('hidden');
-            fig.classList.add('poster-hidden');
-            overlayWrap.setAttribute('aria-hidden', 'true');
-          }).catch(() => {
-            // if autoplay blocked but user explicitly clicked, hide overlay so button doesn't block controls
-            if (explicit) {
-              overlayWrap.classList.add('hidden');
-              fig.classList.add('poster-hidden');
-              overlayWrap.setAttribute('aria-hidden', 'true');
-            }
-          });
-        } else {
-          overlayWrap.classList.add('hidden');
-          fig.classList.add('poster-hidden');
-          overlayWrap.setAttribute('aria-hidden', 'true');
-        }
-      } else {
-        vid.pause();
-        overlayWrap.classList.remove('hidden');
-        fig.classList.remove('poster-hidden');
-        overlayWrap.setAttribute('aria-hidden', 'false');
-      }
-    }
-
-    // Play button click
+    // clicking the overlay button toggles playback
     if (playBtn) {
       playBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -148,7 +122,7 @@
       });
     }
 
-    // Clicking the overlay area toggles play too
+    // clicking overlay area toggles too (but only when clicking the overlay container itself)
     overlayWrap.addEventListener('click', (e) => {
       if (e.target === overlayWrap) {
         togglePlay({explicit: true});
@@ -156,22 +130,64 @@
       }
     });
 
-    // Clicking the video itself toggles pause/play (native controls still work)
-    vid.addEventListener('click', () => {
-      // if clicked directly, treat as explicit user action
+    // Ensure expand control exists (if you want a lightbox/expand)
+    let expandBtn = fig.querySelector('.studio-expand');
+    if (!expandBtn) {
+      expandBtn = document.createElement('button');
+      expandBtn.className = 'studio-expand';
+      expandBtn.setAttribute('aria-label', 'Open larger video');
+      expandBtn.textContent = '⤢';
+      fig.appendChild(expandBtn);
+    }
+
+    function hidePosterAndOverlay() {
+      fig.classList.add('poster-hidden');
+      overlayWrap.classList.add('hidden');
+      overlayWrap.setAttribute('aria-hidden', 'true');
+    }
+
+    function showPosterAndOverlay() {
+      fig.classList.remove('poster-hidden');
+      overlayWrap.classList.remove('hidden');
+      overlayWrap.setAttribute('aria-hidden', 'false');
+    }
+
+    // Play/pause helper with robust handling of play promise
+    function togglePlay({explicit = false} = {}) {
+      if (vid.paused) {
+        const p = vid.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            // If play succeeds, hide overlay
+            hidePosterAndOverlay();
+          }).catch(() => {
+            // If play rejected due to autoplay policy:
+            // If the user explicitly clicked the overlay (explicit=true), hide overlay
+            // so it doesn't block controls; otherwise keep visible.
+            if (explicit) hidePosterAndOverlay();
+          });
+        } else {
+          hidePosterAndOverlay();
+        }
+      } else {
+        vid.pause();
+        showPosterAndOverlay();
+      }
+    }
+
+    // Poster click: play or open modal on shift+click
+    poster.addEventListener('click', (e) => {
+      if (e.shiftKey) return; // preserve shift+click for expand/modal
       togglePlay({explicit: true});
+      vid.focus();
     });
 
-    // Keep overlay in sync with playback state
+    // Sync overlay with current playback state at load
     function syncOverlayState() {
       if (!vid.paused && !vid.ended && vid.readyState >= 2) {
-        overlayWrap.classList.add('hidden');
-        fig.classList.add('poster-hidden');
-        overlayWrap.setAttribute('aria-hidden', 'true');
+        hidePosterAndOverlay();
       } else {
-        overlayWrap.classList.remove('hidden');
-        fig.classList.remove('poster-hidden');
-        overlayWrap.setAttribute('aria-hidden', 'false');
+        showPosterAndOverlay();
       }
     }
 
@@ -182,42 +198,25 @@
       vid.addEventListener('loadedmetadata', syncOverlayState, { once: true });
     }
 
-    vid.addEventListener('play', () => {
-      overlayWrap.classList.add('hidden');
-      fig.classList.add('poster-hidden');
-      overlayWrap.setAttribute('aria-hidden', 'true');
-    });
-    vid.addEventListener('playing', () => {
-      overlayWrap.classList.add('hidden');
-      fig.classList.add('poster-hidden');
-      overlayWrap.setAttribute('aria-hidden', 'true');
-    });
-    vid.addEventListener('pause', () => {
-      overlayWrap.classList.remove('hidden');
-      fig.classList.remove('poster-hidden');
-      overlayWrap.setAttribute('aria-hidden', 'false');
-    });
+    // Hide overlay when video plays; show when paused/ended
+    vid.addEventListener('play', hidePosterAndOverlay);
+    vid.addEventListener('playing', hidePosterAndOverlay);
+    vid.addEventListener('pause', showPosterAndOverlay);
     vid.addEventListener('ended', () => {
-      overlayWrap.classList.remove('hidden');
-      fig.classList.remove('poster-hidden');
-      overlayWrap.setAttribute('aria-hidden', 'false');
+      showPosterAndOverlay();
       vid.currentTime = 0;
     });
 
-    // Expand button (optional hook)
-    let expandBtn = fig.querySelector('.studio-expand');
-    if (!expandBtn) {
-      expandBtn = document.createElement('button');
-      expandBtn.className = 'studio-expand';
-      expandBtn.setAttribute('aria-label', 'Open larger video');
-      expandBtn.textContent = '⤢';
-      fig.appendChild(expandBtn);
-    }
+    // Poster error fallback
+    poster.addEventListener('error', () => {
+      hidePosterAndOverlay();
+    });
+
+    // Expand button hook (no-op if you don't have a modal)
     expandBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       if (typeof openModal === 'function') openModal();
     });
-
   })();
   </script>
 </body>
